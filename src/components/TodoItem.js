@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './TodoItem.module.css';
 
-const TodoItem = ({ todo, removeHandler, updateTodo }) => (
+const TodoItem = ({ todo, removeHandler, updateTodo, editHandler }) => {
+    
+  return(
     <div className={styles.itemContainer}>
       <div>
         <input
@@ -18,6 +20,11 @@ const TodoItem = ({ todo, removeHandler, updateTodo }) => (
         >
           {todo.title}
         </label>
+        <date 
+          onClick={() => updateTodo(todo.id)}
+          htmlFor={`checkbox-${todo.id}`}
+          className={todo.completed ? styles.completed : ''}
+        > {todo.date} </date>
       </div>
       <button
         className={styles.closeBtn}
@@ -26,7 +33,15 @@ const TodoItem = ({ todo, removeHandler, updateTodo }) => (
       >
         X
       </button>
+      <button
+        className={styles.editBtn}
+        data-testid={`edit-btn-${todo.id}`}
+        onClick={() => editHandler(todo)}
+      >
+        Edit
+        </button>
+        
     </div>
-  );
+) }
   
 export default TodoItem;

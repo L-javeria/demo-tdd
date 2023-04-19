@@ -10,6 +10,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [newTodo, setNewTodo] = useState('');
   const [saving, setSaving] = useState(false);
+  const [date, setDate] = useState('')
+  const [editing, setEditing] = useState(null)
+
   function onChange(e) {
     const value = e.target.value;
     setNewTodo(value);
@@ -17,6 +20,11 @@ function App() {
   
   function removeTodo(id) {
     setTodos(todos.filter(t => t.id !== id));
+  }
+
+  function editHandler(id){
+    setEditing(true)
+    
   }
 
   function updateTodo(id) {
@@ -38,6 +46,7 @@ function App() {
       userId: 3,
       id: Math.floor(Math.random() * 10000) + 1,
       title: newTodo,
+      date: date,
       completed: false,
     };
   
@@ -69,13 +78,16 @@ function App() {
     }
     fetchData();
   }, []);
+
   return (
+
   <div className="App">
     <h1 className="header">My todo list</h1>
+    {/* <TodoItem /> */}
     {loading ? (
       'Loading'
     ) : (
-      <TodoList todos={todos} removeHandler={removeTodo} updateTodo={updateTodo} />
+      <TodoList todos={todos} removeHandler={removeTodo} updateTodo={updateTodo} editHandler={editHandler} />
     )}
 
     <div className="add-todo-form">
@@ -84,6 +96,13 @@ function App() {
       ) : (
         <form onSubmit={addTodo}>
           <input type="text" onChange={onChange} />
+          <input 
+            type='date'
+            id={`date-${todos.id}`}
+            className='todo-date'
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
           <button type="submit">Add new todo</button>
         </form>
       )}
